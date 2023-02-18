@@ -1,14 +1,20 @@
-import { createStore } from 'vuex'
+import Vue from "vue";
+import Vuex from 'vuex'
+import { IErrorState } from './error/state';
+import { IUsuarioState } from './usuario/state';
+import {moduloUsuario} from './usuario'
+import {moduloError} from './error'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
+Vue.use(Vuex);
+
+export interface IState{
+  moduloUsuario: IUsuarioState,
+  moduloError: IErrorState
+}
+
+export default new Vuex.Store<IState>({
+  modules:{
+    moduloUsuario,
+    moduloError
   }
-})
+});

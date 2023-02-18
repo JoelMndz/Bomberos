@@ -1,5 +1,8 @@
 import {connect} from '../database'
 import { generateToken } from '../utils/generateToken';
+import jwt from 'jsonwebtoken'
+import config from '../config';
+import { UsuarioService } from './usuario';
 
 export class AuthService{
   static async login(entity:any){
@@ -27,6 +30,7 @@ export class AuthService{
     return usuario;
   }
 
+  /*
   static async registrar(entidad:{
     nombres:string,
     apellidos: string,
@@ -73,5 +77,21 @@ export class AuthService{
     await db.end();
 
     return entidad;
+  }*/
+
+  static async loginConToken(token:string){
+    if(!token){
+      throw new Error('Debe enviar el token!');;
+    }
+    const decode:any = jwt.verify(token, config.SECRET!);
+    
+    const usuario = await UsuarioService.get(decode.id);
+    if(!usuario){
+      const error = new Error();
+      error.message = 'Token invalido';
+      throw error;
+    }
+
+    return {...usuario, token}
   }
 }

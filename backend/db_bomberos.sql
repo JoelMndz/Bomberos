@@ -241,5 +241,3 @@ INSERT INTO usuarios (id, identificacion, nombre, apellidos, direccion, telefono
 
 insert into configuracion_reportes(nombre_empresa,nombre_departamento,nombre_coronel,telefono) 
 values('CUERPO DE BOMBEROS DE LOJA','DEPARTAMENTO DE BOMBEROS','CORONEL A CARGO','0986663652');
-
--- select * from roles;
