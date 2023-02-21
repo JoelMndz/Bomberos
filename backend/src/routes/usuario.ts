@@ -1,12 +1,13 @@
 import { Router } from "express";
 import controllers from "../controllers";
-import middlewares from "../middlewares";
 
 const router = Router();
 const usuarioController = new controllers.UsuarioController();
 
-router.use(middlewares.verifyToken);
+router.get('/',usuarioController.getAll);
 
-router.get('/',usuarioController.get);
+router.get('/:id',usuarioController.get);
+
+router.post('/', usuarioController.create)
 
 export default router;

@@ -4,6 +4,7 @@ import SolicitudRouter from "./solicitud";
 import UsuarioRouter from "./usuario";
 import InformacionRouter from './informacion'
 import RolRouter from './rol'
+import RangoRouter from './rango'
 
 export default{
   AuthRouter,
@@ -11,5 +12,6 @@ export default{
   InspeccionRouter,
   UsuarioRouter,
   InformacionRouter,
-  RolRouter
+  RolRouter,
+  RangoRouter
 }

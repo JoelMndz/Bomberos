@@ -5,6 +5,7 @@ import { UsuarioService } from "./usuario"
 import {InformacionService} from './informacion'
 import {TipoInspeccionService} from './tipoInspeccion'
 import {RolService} from './rol'
+import {RangoService} from './rango'
 
 export default{
   AuthService,
@@ -13,5 +14,6 @@ export default{
   InspeccionService,
   TipoInspeccionService,
   InformacionService,
-  RolService
+  RolService,
+  RangoService
 }

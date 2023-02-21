@@ -4,6 +4,6 @@ import controllers from '../controllers'
 
 const router = Router();
 
-router.get('/', controllers.RolController.getAll);
+router.get('/', controllers.RangoController.getAll);
 
 export default router;

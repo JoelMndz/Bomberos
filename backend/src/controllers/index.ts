@@ -4,6 +4,7 @@ import { SolicitudController } from "./solicitud"
 import { UsuarioController } from "./usuario"
 import {InformacionController} from './informacion'
 import {RolController} from './rol'
+import {RangoController} from './rango'
 
 export default{
   AuthController,
@@ -11,5 +12,6 @@ export default{
   InspeccionController,
   UsuarioController,
   InformacionController,
-  RolController
+  RolController,
+  RangoController
 }

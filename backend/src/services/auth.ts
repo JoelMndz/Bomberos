@@ -5,6 +5,7 @@ import config from '../config';
 import { UsuarioService } from './usuario';
 
 export class AuthService{
+  
   static async login(entity:any){
     if(!entity.email){
       const error = new Error('Debe enviar el email!');

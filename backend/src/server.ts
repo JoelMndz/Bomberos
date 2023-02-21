@@ -32,7 +32,8 @@ export class Server{
     this.app.use('/api/inspeccion', routes.InspeccionRouter);
     this.app.use('/api/usuario', routes.UsuarioRouter);
     this.app.use('/api/informacion', routes.InformacionRouter);
-    this.app.use('/api/rol', routes.RolRouter)
+    this.app.use('/api/rol', routes.RolRouter);
+    this.app.use('/api/rango', routes.RangoRouter);
   }
   
   middlewares() {
