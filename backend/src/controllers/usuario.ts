@@ -31,4 +31,14 @@ export class UsuarioController{
       manejarError(error,res);
     }
   }
+
+  async delete(req:Request, res:Response){
+    try {
+      const {id} = req.params;
+      const data = await services.UsuarioService.delete(id);
+      return res.json(data)
+    } catch (error:any) {
+      manejarError(error,res);
+    }
+  }
 }

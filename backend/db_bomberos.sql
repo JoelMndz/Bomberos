@@ -21,7 +21,7 @@ create table privilegios(
 create table roles(
 	id int primary key auto_increment,
     descripcion varchar(100),
-    estado char default '1'
+    estado int default 1
 );
 
 create table privilegios_por_rol(
@@ -34,7 +34,7 @@ create table privilegios_por_rol(
 create table rangos(
 	id int primary key auto_increment,
     descripcion varchar(100),
-    estado char default '1'
+    estado int default 1
 );
 
 create table contribuyentes(
@@ -46,7 +46,7 @@ create table contribuyentes(
     telefono varchar(15),
     email varchar(100),
     fecha_nacimiento date,
-    estado char default '1',
+    estado int default 1,
     discapacidad varchar(50)
 );
 
@@ -60,7 +60,7 @@ create table usuarios(
     email varchar(100),
     password varchar(100),
     fecha_nacimiento date,
-    estado char default '1',
+    estado int default 1,
     id_rol int,
     id_rango int,
     foreign key(id_rol) references roles(id),
@@ -97,7 +97,7 @@ create table locales(
 create table solicitudes(
 	id int primary key auto_increment,
     fecha_creacion datetime default now(),
-    estado char default '1',
+    estado int default 1,
     id_usuario int,
     id_local int,
     id_tipo_inspeccion int,
@@ -114,6 +114,7 @@ create table inspecciones(
 	id int primary key auto_increment,
     fecha_creacion datetime default now(),
     aprobacion varchar(3),
+    observacion varchar(255),
     notificaciones int default 0,
     id_solicitud int,
     id_permiso int,
@@ -240,4 +241,4 @@ INSERT INTO usuarios (id, identificacion, nombre, apellidos, direccion, telefono
 (1, '1312386931', 'Admin', 'Total', 'calle 13', '0983336665','1980-01-01', 'admin@gmail.com', 1, 1, 'admin');
 
 insert into configuracion_reportes(nombre_empresa,nombre_departamento,nombre_coronel,telefono) 
-values('CUERPO DE BOMBEROS DE LOJA','DEPARTAMENTO DE BOMBEROS','CORONEL A CARGO','0986663652');
+values('CUERPO DE BOMBEROS DE AZOGUES','DEPARTAMENTO DE BOMBEROS','CORONEL A CARGO','0986663652');

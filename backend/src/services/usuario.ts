@@ -17,7 +17,24 @@ export class UsuarioService{
 
   static async getAll(){
     const db = connect();
-    const result:any = await db.query(`select * from usuarios`);
+    const result:any = await db.query(`select 
+        u.id,
+        u.identificacion,
+        u.nombre,
+        u.apellidos,
+        u.direccion,
+        u.direccion,
+        u.telefono,
+        u.email,
+        u.fecha_nacimiento,
+        u.estado,
+        u.id_rol,
+        u.id_rango,
+        ro.descripcion as nombre_rol,
+        ra.descripcion as nombre_rango
+      from usuarios as u
+      inner join roles as ro on ro.id = u.id_rol
+      inner join rangos as ra on ra.id = u.id_rango`);
     await db.end()
     const data = result[0];
 
@@ -31,7 +48,24 @@ export class UsuarioService{
 
   static async get(id:any){
     const db = connect();
-    const result:any = await db.query(`select * from usuarios where id=${id}`);
+    const result:any = await db.query(`select 
+        u.id,
+        u.identificacion,
+        u.nombre,
+        u.apellidos,
+        u.direccion,
+        u.direccion,
+        u.telefono,
+        u.email,
+        u.fecha_nacimiento,
+        u.estado,
+        u.id_rol,
+        u.id_rango,
+        ro.descripcion as nombre_rol,
+        ra.descripcion as nombre_rango
+      from usuarios as u
+      inner join roles as ro on ro.id = u.id_rol
+      inner join rangos as ra on ra.id = u.id_rango where u.id=${id}`);
     await db.end()
     if(result[0].length == 0){
       throw new Error('Usuario no encontrado!');
@@ -78,6 +112,17 @@ export class UsuarioService{
     const result:any = await db.query(sql);
     await db.end()
     return entity;
+  }
+
+  static async delete(id:string){
+    if(!id){
+      throw new Error('Debe enviar el id');
+    }
+    const sql = `delete from usuarios where id=${id}`;
+    const db = connect();
+    const result:any = await db.query(sql);
+    await db.end();
+    return result;
   }
 
 }
