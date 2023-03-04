@@ -6,6 +6,8 @@ import InformacionRouter from './informacion'
 import RolRouter from './rol'
 import RangoRouter from './rango'
 import ContribuyenteRouter from './contribuyente'
+import ParroquiaRouter from './parroquia'
+import LocalRouter from './local'
 
 export default{
   AuthRouter,
@@ -16,4 +18,6 @@ export default{
   RolRouter,
   RangoRouter,
   ContribuyenteRouter,
+  ParroquiaRouter,
+  LocalRouter
 }

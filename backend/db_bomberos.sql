@@ -164,18 +164,18 @@ create table cobros(
 );
 
 INSERT INTO parroquias VALUES
-(1, '	Aurelio Bayas'),
-(2, '	Azogues'),
-(3, '	Borrero'),
-(4, '	San Francisco'),
-(5, '	Cojitambo'),
-(6, '	Guapán'),
-(7, '	Javier Loyola'),
-(8, '	Luis Cordero'),
-(9, '	Pindilig'),
-(10, '	Rivera'),
-(11, '	San Miguel'),
-(12, '	Taday');
+(1, 'Aurelio Bayas'),
+(2, 'Azogues'),
+(3, 'Borrero'),
+(4, 'San Francisco'),
+(5, 'Cojitambo'),
+(6, 'Guapán'),
+(7, 'Javier Loyola'),
+(8, 'Luis Cordero'),
+(9, 'Pindilig'),
+(10, 'Rivera'),
+(11, 'San Miguel'),
+(12, 'Taday');
 
 INSERT INTO tipo_cobro VALUES
 (1, 'Valor Total'),

@@ -2,6 +2,11 @@ import {Router} from 'express';
 import controllers from '../controllers'
 const router = Router();
 
+
+router.get('/',controllers.InformacionController.get)
+
+router.patch('/:id',controllers.InformacionController.update)
+
 /**
  * @swagger
  * components:
@@ -49,6 +54,5 @@ const router = Router();
  *                $ref: '#/components/schemas/InformacionResponse'
  */
 
-router.get('/',controllers.InformacionController.get)
 
 export default router;

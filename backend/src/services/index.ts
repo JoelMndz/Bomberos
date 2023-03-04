@@ -7,6 +7,8 @@ import {TipoInspeccionService} from './tipoInspeccion'
 import {RolService} from './rol'
 import {RangoService} from './rango'
 import {ContribuyenteService} from './contribuyente';
+import {ParroquiaService} from './parroquia'
+import {LocalService} from './local'
 
 export default{
   AuthService,
@@ -17,5 +19,7 @@ export default{
   InformacionService,
   RolService,
   RangoService,
-  ContribuyenteService
+  ContribuyenteService,
+  ParroquiaService,
+  LocalService
 }

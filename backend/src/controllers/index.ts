@@ -6,6 +6,8 @@ import {InformacionController} from './informacion'
 import {RolController} from './rol'
 import {RangoController} from './rango'
 import {ContribuyenteController} from './contribuyente'
+import {ParroquiaController} from './parroquia'
+import {LocalController} from './local'
 
 export default{
   AuthController,
@@ -15,5 +17,7 @@ export default{
   InformacionController,
   RolController,
   RangoController,
-  ContribuyenteController
+  ContribuyenteController,
+  ParroquiaController,
+  LocalController
 }
