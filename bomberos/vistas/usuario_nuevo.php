@@ -113,14 +113,49 @@
                                                             <label for="inputCity" class="form-label">Rol</label>
                                                             <select id="inputCity" class="form-select">
                                                                 <option selected>Elige...</option>
-                                                                <option>Azogues</option>
+                                                                <?php
+                                                            $curl = curl_init();
+                                                            $url = 'http://localhost:5000/api/rol';
+                                                            curl_setopt($curl, CURLOPT_URL, $url);
+                                                            curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                            $response = curl_exec($curl);
+                                                            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                            if ($httpCode == 200) {
+                                                                $data = json_decode($response);    
+                                                                foreach ($data as $key => $value) {
+                                                                    echo "<option value='".$value->id."'>".$value->descripcion."</option>";
+                                                                }
+                                                            } else {
+                                                                echo "Error, no se pudieron obtener los datos";
+                                                            }
+                                                            curl_close($curl);
+                                                            ?>
+
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="inputState" class="form-label">Rango</label>
                                                             <select id="inputState" class="form-select">
                                                                 <option selected>Elige...</option>
-                                                                <option>...</option>
+                                                                <?php
+                                                                $curl = curl_init();
+                                                                $url = 'http://localhost:5000/api/rango';
+                                                                curl_setopt($curl, CURLOPT_URL, $url);
+                                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                                $response = curl_exec($curl);
+                                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                                if ($httpCode == 200) {
+                                                                    $data = json_decode($response);    
+                                                                    foreach ($data as $key => $value) {
+                                                                        echo "<option value='".$value->id."'>".$value->descripcion."</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "Error, no se pudieron obtener los datos";
+                                                                }
+                                                                curl_close($curl);
+                                                                ?>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">

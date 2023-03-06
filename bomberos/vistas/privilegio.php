@@ -123,42 +123,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>Administrador</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>Inspector</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                               <!-- Consumo de API - Privilegios -->
+                                            <?php
+                                                $curl = curl_init();
+                                                $url = 'http://localhost:5000/api/rol';
+                                                curl_setopt($curl, CURLOPT_URL, $url);
+                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                $response = curl_exec($curl);
+                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                if ($httpCode == 200) {
+                                                    $data = json_decode($response);    
+                                                    foreach ($data as $key => $value) {
+                                                        echo "<tr>";
+                                                        echo "<td>".$value->id."</td>";
+                                                        echo "<td>".$value->descripcion."</td>";
+                                                        $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
+                                                        echo "<td>".$estado."</td>";
+                                                        echo "<td>";
+                                                        echo "<a href='#' title='Ver Tipo' class='btn btn-dark btn-xs' data-bs-toggle='modal' data-bs-target='#vertipoinspeccion'><i class='fa fa-search-plus'></i></a>";
+                                                        echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editartipoinspeccion'><i class='fa fa-pencil'></i></a>";
+                                                        echo "<a href='#' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                        echo "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    echo "Error, no se pudieron obtener los datos";
+                                                }
+                                                curl_close($curl);
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
                                 </div>
                                 <div class="cadr-footer">
                                     <div class="text-center text-danger">

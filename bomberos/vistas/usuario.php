@@ -188,42 +188,42 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>0301803383</td>
-                                                    <td>Carlos</td>
-                                                    <td>Alvarez</td>
-                                                    <td>Azogues</td>
-                                                    <td>0984962345</td>
-                                                    <td>ejemplo@gmail.com</td>
-                                                    <td>Administrador</td>
-                                                    <td>Tnte.</td>
-                                                    <td>Activo</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#verusuario"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarusuario"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>0302730445</td>
-                                                    <td>Jose</td>
-                                                    <td>Chuachichulca</td>
-                                                    <td>Cuenca</td>
-                                                    <td>0963214578</td>
-                                                    <td>jose@gmail.com</td>
-                                                    <td>Inspector</td>
-                                                    <td>Stgo.</td>
-                                                    <td>Activo</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#verusuario"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarusuario"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                                <!-- Consumo de API - Usuarios -->
+                                            <?php
+                                                $curl = curl_init();
+                                                $url = 'http://localhost:5000/api/usuario';
+                                                curl_setopt($curl, CURLOPT_URL, $url);
+                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                $response = curl_exec($curl);
+                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                if ($httpCode == 200) {
+                                                    $data = json_decode($response);    
+                                                    foreach ($data as $key => $value) {
+                                                        echo "<tr>";
+                                                        echo "<td>".$value->id."</td>";
+                                                        echo "<td>".$value->identificacion."</td>";
+                                                        echo "<td>".$value->nombre."</td>";
+                                                        echo "<td>".$value->apellidos."</td>";
+                                                        echo "<td>".$value->direccion."</td>";
+                                                        echo "<td>".$value->telefono."</td>";
+                                                        echo "<td>".$value->email."</td>";
+                                                        echo "<td>".$value->id_rol."</td>";
+                                                        echo "<td>".$value->id_rango."</td>";
+                                                        $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
+                                                        echo "<td>".$estado."</td>";
+                                                        echo "<td>";
+                                                        echo "<a href='#' title='Ver Tipo' class='btn btn-dark btn-xs' data-bs-toggle='modal' data-bs-target='#verusuario'><i class='fa fa-search-plus'></i></a>";
+                                                        echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarusuario'><i class='fa fa-pencil'></i></a>";
+                                                        echo "<a href='#' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                        echo "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    echo "Error, no se pudieron obtener los datos";
+                                                }
+                                                curl_close($curl);
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
