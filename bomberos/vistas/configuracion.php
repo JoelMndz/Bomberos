@@ -1,3 +1,29 @@
+<!-- LOGICA -->
+<?php
+    if (isset($_POST['nombreEmpresa'])) {
+        $curl = curl_init();
+        $url = 'http://localhost:5000/api/informacion/'.$_GET['id'];
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return;
+    }
+
+    $curl = curl_init();
+    $url = 'http://localhost:5000/api/informacion';
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPGET, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    if($httpCode == 200){
+        $informacion = json_decode($response);
+    }
+?>
+
 <?php include_once('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -106,27 +132,25 @@
                                 <strong class="text-primary">
                                     <i class="fas fa-phone mr-1"></i>Nombre de la Empresa
                                 </strong>
-                                <p id="telefono_us" class="text-muted">Cuerpo de Bomberos de Azogues</p>
+                                <p id="telefono_us" class="text-muted"><?=$informacion->nombre_empresa?></p>
                                 <strong class="text-primary">
                                     <i class="fas fa-map-marker-alt mr-1"></i>Departamento
                                 </strong>
-                                <p id="residencia_us" class="text-muted">Prevención </p>
+                                <p id="residencia_us" class="text-muted"><?=$informacion->nombre_departamento?></p>
                                 <strong class="text-primary">
                                     <i class="fas fa-at mr-1"></i>Representante
                                 </strong>
-                                <p id="correo_us" class="text-muted">Marco Vinicio Pérez</p>
+                                <p id="correo_us" class="text-muted"><?=$informacion->nombre_coronel?></p>
                                 <strong class="text-primary">
                                     <i class="fas fa-phone mr-1"></i>Teléfono
                                 </strong>
-                                <p id="sexo_us" class="text-muted">072240188</p>
+                                <p id="sexo_us" class="text-muted"><?=$informacion->telefono?></p>
                                 <strong class="text-primary">
                                     <i class="fas fa-pencil-alt mr-1"></i>Página Web
                                 </strong>
-                                <p id="adicional_us" class="text-muted"><a class="text-muted text-decoration-none" href="https://bomberosazogues.gob.ec">www.bomberosazogues.gob.ec</a></p>
-                                <button class="edit btn btn-block btn-outline-danger">Editar</button>
-                            </div>
-                            <div class="card-footer">
-                                <p class="text-muted">click en el boton si desea editar</p>
+                                <p id="adicional_us" class="text-muted"><a class="text-muted text-decoration-none" href="https://bomberosazogues.gob.ec">
+                                    <?=$informacion->pagina_web?>
+                                </a></p>
                             </div>
                         </div>
                     </div>
@@ -136,41 +160,41 @@
                                 <h3 class="card-title fs-4">Editar datos de la Empresa</h3>
                             </div>
                             <div class="card-body">
-                                <form id='form-usuario' class="form-horizontal">
+                                <form id='form-usuario' class="form-horizontal" method="POST" action="configuracion.php?id=<?=$informacion->id?>">
                                     <div class="form-group row ">
-                                        <label for="telefono" class="col-sm-4 col-form-label">Nombre de la Empresa</label>
+                                        <label for="nombreEmpresa" class="col-sm-4 col-form-label">Nombre de la Empresa</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="telefono" class="form-control">
+                                            <input type="text" id="nombreEmpresa" name="nombreEmpresa" class="form-control" value="<?=$informacion->nombre_empresa?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="residencia" class="col-sm-4 col-form-label">Departamento</label>
+                                        <label for="nombreDepartamento" class="col-sm-4 col-form-label">Departamento</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="residencia" class="form-control">
+                                            <input type="text" id="nombreDepartamento" name="nombreDepartamento" class="form-control" value="<?=$informacion->nombre_departamento?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="correo" class="col-sm-4 col-form-label">Representante</label>
+                                        <label for="nombreCoronel" class="col-sm-4 col-form-label">Representante</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="correo" class="form-control">
+                                            <input type="text" id="nombreCoronel" name="nombreCoronel" value="<?=$informacion->nombre_coronel?>" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="sexo" class="col-sm-4 col-form-label">Teléfono</label>
+                                        <label for="telefono" class="col-sm-4 col-form-label">Teléfono</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="sexo" class="form-control">
+                                            <input type="text" id="telefono" name="telefono" value="<?=$informacion->telefono?>" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="sexo" class="col-sm-4 col-form-label">Página Web</label>
+                                        <label for="paginaWeb" class="col-sm-4 col-form-label">Página Web</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="sexo" class="form-control">
+                                            <input type="text" id="paginaWeb" class="form-control" name="paginaWeb" value="<?=$informacion->pagina_web?>" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="offset-sm-4 col-sm-8 float-right">
-                                            <button class="btn btn-block btn-outline-danger">Guardar</button>
+                                            <button type="submit" class="btn btn-block btn-outline-danger">Guardar</button>
                                         </div>
                                     </div>
                                 </form>

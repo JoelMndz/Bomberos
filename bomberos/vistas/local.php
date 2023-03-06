@@ -170,45 +170,39 @@
                                                     <th scope="col">C. Principal</th>
                                                     <th scope="col">C. Secundaria</th>
                                                     <th scope="col">Referencias</th>
-                                                    <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php
+                                                    $curl = curl_init();
+                                                    $url = 'http://localhost:5000/api/local';
+                                                    curl_setopt($curl, CURLOPT_URL, $url);
+                                                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                    $response = curl_exec($curl);
+                                                    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                    curl_close($curl);
+                                                    if ($httpCode == 200) {
+                                                        $data = json_decode($response);    
+                                                        foreach ($data as $key => $value) {
+                                                ?>
                                                 <tr>
-                                                    <th>1</th>
-                                                    <td>Carlos Alvarez</td>
-                                                    <td>Jugeteria</td>
-                                                    <td>Azogues</td>
-                                                    <td>1-199</td>
-                                                    <td>Manta</td>
-                                                    <td>Cristo</td>
-                                                    <td>Junto a la iglesia</td>
-                                                    <td>Habilitado</td>
+                                                    <th><?= $value->id?></th>
+                                                    <td><?= $value->nombre_contribuyente?></td>
+                                                    <td><?= $value->nombre?></td>
+                                                    <td><?= $value->nombre_parroquia?></td>
+                                                    <td><?= $value->numero_casa?></td>
+                                                    <td><?= $value->calle_principal?></td>
+                                                    <td><?= $value->calle_secundaria?></td>
+                                                    <td><?= $value->referencia?></td>
                                                     <td>
                                                         <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
                                                         <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
                                                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>Jose Chuachichulca</td>
-                                                    <td>Cyber</td>
-                                                    <td>Azogues</td>
-                                                    <td>2-36</td>
-                                                    <td>Bolivar</td>
-                                                    <td>Azuay</td>
-                                                    <td>Cinco Esquinas</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                                <?php }}?>
                                             </tbody>
                                         </table>
                                     </div>

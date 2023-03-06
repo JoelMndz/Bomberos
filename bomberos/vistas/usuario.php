@@ -1,10 +1,25 @@
+<!-- LOGICA --->
+<?php
+    if(isset($_GET['id'])){
+        echo $_GET['id'];
+        $curl = curl_init();
+        $url = 'http://localhost:5000/api/usuario/'.$_GET["id"];
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        $response = curl_exec($curl);
+        curl_close($curl);
+    }
+?>
+
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
 <title>Sistema de Permisos | Usuario</title>
 
 <!-- Main Sidebar Container -->
-<?php require('../vistas/layout/nav.php') ?>
+<?php 
+    require('../vistas/layout/nav.php');
+?>
 
 <!-- Modal ver usuario -->
 <div class="modal fade" id="verusuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
@@ -13,44 +28,6 @@
             <div class="modal-header">
                 <h5 class="modal-title text-danger fs-3" id="modalTitle">Datos de Usuario</h5>
                 <button type="button" class="btn btn-close btn-danger btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row g-3">
-                    <div class="container">
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Cédula:</div>
-                            <div class="col-8">0301803383</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Nombre:</div>
-                            <div class="col-8">Carlos</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Apellido:</div>
-                            <div class="col-8">Alvarez</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Telefono:</div>
-                            <div class="col-8">0984962345</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Correo:</div>
-                            <div class="col-8">ejemplo@gmail.com</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Rol:</div>
-                            <div class="col-8">Administrador</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Rango:</div>
-                            <div class="col-8">Tnte.</div>
-                        </div>
-                        <div class="row border border-danger p-1 m-2 rounded">
-                            <div class="col-4">Estado:</div>
-                            <div class="col-8">Activo</div>
-                        </div>
-                    </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -208,14 +185,13 @@
                                                         echo "<td>".$value->direccion."</td>";
                                                         echo "<td>".$value->telefono."</td>";
                                                         echo "<td>".$value->email."</td>";
-                                                        echo "<td>".$value->id_rol."</td>";
-                                                        echo "<td>".$value->id_rango."</td>";
+                                                        echo "<td>".$value->nombre_rol."</td>";
+                                                        echo "<td>".$value->nombre_rango."</td>";
                                                         $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
                                                         echo "<td>".$estado."</td>";
                                                         echo "<td>";
-                                                        echo "<a href='#' title='Ver Tipo' class='btn btn-dark btn-xs' data-bs-toggle='modal' data-bs-target='#verusuario'><i class='fa fa-search-plus'></i></a>";
                                                         echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarusuario'><i class='fa fa-pencil'></i></a>";
-                                                        echo "<a href='#' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                        echo "<a href='usuario.php?id=".$value->id."' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
                                                         echo "</td>";
                                                         echo "</tr>";
                                                     }
@@ -228,6 +204,7 @@
                                         </table>
                                     </div>
                                 </div>
+                                <?php /* 
                                 <div class="card-footer">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-end">
@@ -239,10 +216,11 @@
                                         </ul>
                                     </nav>
                                 </div>
+                                */?>
                                 <div class="cadr-footer">
                                     <div class="text-center text-danger">
                                         © <span class="current-year"></span>
-                                        <a id="scroll-top" href="#" class="go-top">
+                                        <a id="scroll-top" class="go-top">
                                             <i class="fa fa-angle-up text-danger"></i>
                                         </a>
                                     </div>

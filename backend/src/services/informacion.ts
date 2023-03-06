@@ -13,7 +13,7 @@ export class InformacionService{
     const db = connect();
     const data = await db.query('select * from configuracion_reportes') as any;
     await db.end();
-    return data[0];
+    return data[0][0];
   }
 
   static async update(id:string, entity:IInformacion){

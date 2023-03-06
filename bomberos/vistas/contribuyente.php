@@ -179,56 +179,44 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>0301803383</td>
-                                                    <td>Carlos</td>
-                                                    <td>Alvarez</td>
-                                                    <td>01/01/1990</td>
-                                                    <td>Azogues</td>
-                                                    <td>0984962345</td>
-                                                    <td>ejemplo@gmail.com</td>
-                                                    <td>No</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vercontribuyente"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarcontribuyente"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>0302730445</td>
-                                                    <td>Jose</td>
-                                                    <td>Chuachichulca</td>
-                                                    <td>19/12/2022</td>
-                                                    <td>Cuenca</td>
-                                                    <td>0963214578</td>
-                                                    <td>jose@gmail.com</td>
-                                                    <td>No</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vercontribuyente"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarcontribuyente"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                                <!-- Cargar Contribuyentes--> 
+                                                <?php 
+                                                    $curl = curl_init();
+                                                    $url = 'http://localhost:5000/api/contribuyente';
+                                                    curl_setopt($curl, CURLOPT_URL, $url);
+                                                    curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                    $response = curl_exec($curl);
+                                                    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                    curl_close($curl);
+                                                    if ($httpCode == 200) {
+                                                        $data = json_decode($response);    
+                                                        foreach ($data as $key => $value) {
+                                                            echo "<tr>";
+                                                            echo "<th>".$value->id."</th>";
+                                                            echo "<td>".$value->identificacion."</td>";
+                                                            echo "<td>".$value->nombre."</td>";
+                                                            echo "<td>".$value->apellidos."</td>";
+                                                            echo "<td>".date('d/m/Y', strtotime($value->fecha_nacimiento))."</td>";
+                                                            echo "<td>".$value->direccion."</td>";
+                                                            echo "<td>".$value->telefono."</td>";
+                                                            echo "<td>".$value->email."</td>";
+                                                            echo "<td>".$value->discapacidad."</td>";
+                                                            $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
+                                                            echo "<td>".$estado."</td>";
+                                                            echo "<td>";
+                                                            echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarcontribuyente'><i class='fa fa-pencil'></i></a>";
+                                                            echo "<a href='contribuyente.php?id=".$value->id."' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                            echo "</td>";
+                                                            echo "</tr>";
+                                                        }
+                                                    } else {
+                                                        echo "Error, no se pudieron obtener los datos";
+                                                    }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
                                 </div>
                                 <div class="cadr-footer">
                                     <div class="text-center text-danger">

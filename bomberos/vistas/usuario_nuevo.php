@@ -1,3 +1,23 @@
+<!-- LOGICA -->
+<?php
+    if(isset($_POST["nombre"])){
+        $curl = curl_init();
+        $url = 'http://localhost:5000/api/usuario';
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if ($httpCode != 200) {
+            echo "Error, no se pudieron guardar los datos";
+        }else{
+            header("Location: ./usuario.php");
+            return;
+        }
+    }
+?>
+
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -18,7 +38,7 @@
                 <form class="row g-3">
                     <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputEmail4">
+                        <input type="email" class="form-control" id="inputEmail4" required>
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Contraseña</label>
@@ -87,57 +107,66 @@
                                             <div class="panel panel-border panel-warning widget-s-1">
                                                 <div class="panel-body">
 
-                                                    <form class="row g-3">
+                                                    <form class="row g-3" method="POST">
                                                         <div class="col-md-4">
-                                                            <label for="inputEmail4" class="form-label">Nombre</label>
-                                                            <input type="email" class="form-control" id="inputEmail4">
+                                                            <label for="identificacion" class="form-label">Cédula</label>
+                                                            <input type="text" class="form-control" id="identificacion" name="identificacion" required>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="inputEmail4" class="form-label">Apellido</label>
-                                                            <input type="email" class="form-control" id="inputEmail4">
+                                                            <label for="nombre" class="form-label">Nombre</label>
+                                                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="apellidos" class="form-label">Apellido</label>
+                                                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
                                                         </div>
                                                         <div class="col-4">
-                                                            <label for="inputAddress" class="form-label">Telefono</label>
-                                                            <input type="text" class="form-control" id="inputAddress" placeholder="">
+                                                            <label for="telefono" class="form-label">Telefono</label>
+                                                            <input type="tel" class="form-control" id="telefono" name="telefono" required>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label for="inputPassword4" class="form-label">Dirección</label>
-                                                            <input type="password" class="form-control" id="inputPassword4">
+                                                            <label for="direccion" class="form-label">Dirección</label>
+                                                            <input type="text" class="form-control" id="direccion" name="direccion" required>
                                                         </div>
-
+                                                        <div class="col-md-6">
+                                                            <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                                                            <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                                                        </div>
                                                         <div class="col-6">
-                                                            <label for="inputAddress2" class="form-label">Correo</label>
-                                                            <input type="text" class="form-control" id="inputAddress2" placeholder="">
+                                                            <label for="email" class="form-label">Correo</label>
+                                                            <input type="email" class="form-control" id="email" name="email" required>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="password" class="form-label">Contraseña</label>
+                                                            <input type="password" class="form-control" id="password" name="password" required>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="inputCity" class="form-label">Rol</label>
-                                                            <select id="inputCity" class="form-select">
-                                                                <option selected>Elige...</option>
+                                                            <select id="idRol" class="form-select" name="idRol" required>
                                                                 <?php
-                                                            $curl = curl_init();
-                                                            $url = 'http://localhost:5000/api/rol';
-                                                            curl_setopt($curl, CURLOPT_URL, $url);
-                                                            curl_setopt($curl, CURLOPT_HTTPGET, true);
-                                                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                                            $response = curl_exec($curl);
-                                                            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                            if ($httpCode == 200) {
-                                                                $data = json_decode($response);    
-                                                                foreach ($data as $key => $value) {
-                                                                    echo "<option value='".$value->id."'>".$value->descripcion."</option>";
+                                                                $curl = curl_init();
+                                                                $url = 'http://localhost:5000/api/rol';
+                                                                curl_setopt($curl, CURLOPT_URL, $url);
+                                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                                $response = curl_exec($curl);
+                                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                                if ($httpCode == 200) {
+                                                                    $data = json_decode($response);    
+                                                                    foreach ($data as $key => $value) {
+                                                                        echo "<option value='".$value->id."'>".$value->descripcion."</option>";
+                                                                    }
+                                                                } else {
+                                                                    echo "Error, no se pudieron obtener los datos";
                                                                 }
-                                                            } else {
-                                                                echo "Error, no se pudieron obtener los datos";
-                                                            }
-                                                            curl_close($curl);
-                                                            ?>
+                                                                curl_close($curl);
+                                                                ?>
 
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="inputState" class="form-label">Rango</label>
-                                                            <select id="inputState" class="form-select">
-                                                                <option selected>Elige...</option>
+                                                            <label for="idRango" class="form-label">Rango</label>
+                                                            <select id="idRango" name="idRango" class="form-select" required>
                                                                 <?php
                                                                 $curl = curl_init();
                                                                 $url = 'http://localhost:5000/api/rango';
@@ -157,18 +186,6 @@
                                                                 curl_close($curl);
                                                                 ?>
                                                             </select>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label for="inputZip" class="form-label">Usuario</label>
-                                                            <input type="text" class="form-control" id="inputZip">
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="gridCheck">
-                                                                <label class="form-check-label" for="gridCheck">
-                                                                    Estado
-                                                                </label>
-                                                            </div>
                                                         </div>
                                                         <div class="panel-footer">
                                                             <a href="usuario.php" class="btn btn-dark"><span class="fa fa-mail-reply "></span> Regresar</a>
