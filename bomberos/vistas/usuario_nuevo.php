@@ -1,16 +1,18 @@
 <!-- LOGICA -->
 <?php
+    $error = null;  
     if(isset($_POST["nombre"])){
         $curl = curl_init();
         $url = 'http://localhost:5000/api/usuario';
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         if ($httpCode != 200) {
-            echo "Error, no se pudieron guardar los datos";
+            $error = json_decode($response);
         }else{
             header("Location: ./usuario.php");
             return;
@@ -106,7 +108,11 @@
                                         <div class="col-lg-12">
                                             <div class="panel panel-border panel-warning widget-s-1">
                                                 <div class="panel-body">
-
+                                                    <?php if($error){ ?>
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                            <strong><?= $error->message?></strong> 
+                                                        </div>
+                                                    <?php }?>
                                                     <form class="row g-3" method="POST">
                                                         <div class="col-md-4">
                                                             <label for="identificacion" class="form-label">Cédula</label>

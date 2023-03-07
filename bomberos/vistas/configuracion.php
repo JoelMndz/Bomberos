@@ -6,9 +6,9 @@
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         curl_close($curl);
-        return;
     }
 
     $curl = curl_init();

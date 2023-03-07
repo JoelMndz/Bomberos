@@ -1,3 +1,26 @@
+<?php
+    session_start();
+    if(isset($_POST["email"])){
+        $curl = curl_init();
+        $url = 'http://localhost:5000/api/auth/login';
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if ($httpCode == 200) {
+            $_SESSION["user"] = json_decode($response);
+            header("Location: ./vistas/usuario.php");
+            return;
+        }else{
+            $_SESSION["error"] = "Credenciales incorrectas!";
+        }
+        
+    }   
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,15 +71,20 @@
                                         <p class="text-center small">Ingrese correo y contraseña para
                                             iniciar sesión</p>
                                     </div>
-                                    <form class="row g-2 ">
+                                    <?php if(isset($_SESSION['error'])){ ?>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong><?= $_SESSION['error']?></strong> 
+                                        </div>
+                                    <?php unset($_SESSION['error']); }?>
+                                    <form class="row g-2 " method="post" action="index.php">
                                         <div class="col-12">
-                                            <label for="yourEmail" class="form-label">Correo</label>
-                                            <input type="email" class="form-control form-control-user">
+                                            <label for="email" class="form-label">Correo</label>
+                                            <input type="email" name="email" id="email" class="form-control form-control-user">
                                         </div>
                                         <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Contraseña</label>
+                                            <label for="password" class="form-label">Contraseña</label>
                                             <a class="text-muted text-decoration-none" href="pages-register.html">¿Olvidaste tu contraseña?</a>
-                                            <input type="password" class="form-control form-control-user">
+                                            <input type="password" name="password" class="form-control form-control-user" >
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check">
@@ -66,22 +94,8 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="inicio" type="button"><a class="text-white text-decoration-none" href="vistas/principal.php">Iniciar
-                                                Sesión</a></button>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="d-flex  ">
-                                                <button style="border-radius: 25px; margin-right: 15px;" class="btn btn-outline-danger flex-grow-1 mr-2" type="submit"><i
-                                                        class="bi bi-google lead p-2"></i>Google</button>
-                                                <button style="border-radius: 25px; margin-right: 15px;" class="btn btn-outline-primary flex-grow-1" type="submit"><i
-                                                        class="bi bi-facebook lead p-2"></i>Facebook</button>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <p class="small mb-0">¿No tienes cuenta? <a
-                                                        href="pages-register.html">Registraté</a></p>
-                                            </div>
+                                            <button class="inicio text-white" type="submit">Iniciar
+                                                Sesión</button>
                                         </div>
                                     </form>
                                 </div>

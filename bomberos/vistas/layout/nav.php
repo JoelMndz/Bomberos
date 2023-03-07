@@ -1,3 +1,10 @@
+<?php
+  session_start();
+  $nombre = null;
+  if($_SESSION["user"]){
+    $nombre = $_SESSION['user']->nombre." ".$_SESSION['user']->apellidos;
+  }
+?>
 <script src="https://kit.fontawesome.com/934a7d2bb6.js" crossorigin="anonymous"></script>
 
 <!-- Font Awesome -->
@@ -37,7 +44,7 @@
               <img src="../img/user1.jpg" alt="Profile" class="brand-image img-circle elevation-4" width="40px">
             </div>
             <div class="info">
-              <span class="d-none d-md-block dropdown-toggle ps-2">Marco Vinicio Pérez</span>
+              <span class="d-none d-md-block dropdown-toggle ps-2"><?= $nombre ?? 'Marco Vinicio Pérez'?></span>
             </div>
           </a><!-- End Profile Iamge Icon -->
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-danger profile">
@@ -60,7 +67,7 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="../index.php">
+              <a class="dropdown-item d-flex align-items-center" href="../salir.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Cerrar Sesion</span>
               </a>
@@ -297,7 +304,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="../index.php" class="nav-link">
+              <a href="../../controllers/salir.php" class="nav-link">
                 <i class="fa-sharp fa-solid fa-door-closed nav-icon text-danger"></i>
                 <p class="text-danger">
                   Cerrar Sesion

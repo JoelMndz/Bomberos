@@ -1,4 +1,18 @@
-<?php require('../vistas/layout/header.php') ?>
+<?php 
+require('../vistas/layout/header.php');
+
+if(isset($_GET['id'])){
+    $curl = curl_init();
+    $url = 'http://localhost:5000/api/local/'.$_GET['id'];
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+  }
+
+?>
 
 <!-- /.navbar -->
 <title>Local | Sistema de Permisos</title>
@@ -199,24 +213,13 @@
                                                     <td>
                                                         <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
                                                         <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        <a href="local.php?id=<?=$value->id?>" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php }}?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
                                 </div>
                                 <div class="cadr-footer">
                                     <div class="text-center text-danger">
