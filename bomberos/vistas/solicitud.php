@@ -1,4 +1,14 @@
 <?php
+
+if(isset($_GET['aprobar'])){
+    $curl = curl_init();
+    $url = 'http://localhost:5000/api/solicitud/approved/'.$_GET['aprobar'];
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPGET, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+}
+
 $curl = curl_init();
 $url = 'http://localhost:5000/api/solicitud';
 curl_setopt($curl, CURLOPT_URL, $url);
@@ -135,27 +145,6 @@ if ($httpCode == 200) {
                                             <div class="col-auto">
                                                 <a href="solicitud_nuevo.php" class="btn btn-outline-danger btn-bottom-right "><span class="fa fa-plus"></span>Nuevo Solicitud</a>
                                             </div>
-                                            <div class="col-auto">
-                                                <label class="col-form-label">Mostar</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <select name="datatable-responsive_length" aria-controls="datatable-responsive" class="form-control input-sm">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <label class="col-form-label">Registros</label>
-                                            </div>
-                                            <div class="col-auto ">
-                                                <label class="col-form-label">Busqueda</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -181,10 +170,15 @@ if ($httpCode == 200) {
                                                     <td><?= $value->contribuyente ?></td>
                                                     <td><?= $value->local ?></td>
                                                     <td><?= $value->tipo_inspeccion ?></td>
-                                                    <td>Ingresada</td>
+                                                    <td> <?= $value->estado == 1 ? 'Pendiente':'En Proceso de inspección' ?> </td>
                                                     <td>
                                                         <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarsolicitud"><i class="fa fa-pencil"></i></a>
                                                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        <?php
+                                                            if($value->estado == 1){
+                                                        ?>
+                                                        <a href="solicitud.php?aprobar=<?=$value->id?>" title="Aprobar" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                                 <?php } ?>

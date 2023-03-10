@@ -5,7 +5,22 @@ export class InspeccionService{
   async getAll() {
     const db = connect();
     const sql = `
-      
+    select 
+    i.id,
+      i.fecha_creacion,
+      i.aprobacion,
+      i.observacion,
+      l.nombre as local,
+      concat(c.nombre,' ',c.apellidos) as contribuyente,
+      l.calle_principal,
+      l.calle_secundaria,
+      l.referencia,
+      p.descripcion as parroquia
+    from inspecciones as i
+      inner join solicitudes as s on s.id = i.id_solicitud
+      inner join locales as l on s.id_local = l.id
+      inner join contribuyentes as c on c.id = l.id_contribuyente
+      inner join parroquias as p on p.id = l.id_parroquia;
     `;
     const data = await db.query(sql);
     await db.end()
@@ -41,11 +56,22 @@ export class InspeccionService{
 
   async create(entity:any){
     const db = connect();
-    const sql = `
-      
+    let sql = `
+      select max(IntIdInspeccion) as maximo from tblinspeccion`;
+    let result:any = await db.query(sql);
+    let idInspeccion = result[0][0]['maximo'] == null ? 1:1+result[0][0]['maximo']
+    
+    sql = `
+      insert into tblinspeccion(IntIdInspeccion,IntCodigoInspeccion,IntIdSolicitud,StrAprovacion) value
+      (
+        ${idInspeccion},
+        ${idInspeccion},
+        ${entity.idSolicitud},
+        'N/A'
+      )
     `;
-    const result = await db.query(sql);
-    await db.end();
+    result = await db.query(sql);
+    await db.end()
     return result[0];
   }
 

@@ -19,6 +19,17 @@ export class SolicitudController{
       res.json({error:error.message});
     }
   }
+
+  async approved(req:Request, res:Response){
+    try {
+      const {id} = req.params;
+      const data = await services.SolicitudService.approved(id);
+      return res.json(data)
+    } catch (error:any) {
+      res.json({error:error.message});
+    }
+  }
+
   /*
   async getAllPending(req:Request, res:Response){
     try {

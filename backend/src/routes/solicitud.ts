@@ -7,7 +7,10 @@ const solicitudController = new controllers.SolicitudController();
 
 router.get('/',solicitudController.getAll);
 
-router.post('/',solicitudController.create)
+router.post('/',solicitudController.create);
+
+router.get('/approved/:id',solicitudController.approved);
+
 /*
 router.get('/all/pending', solicitudController.getAllPending)
 

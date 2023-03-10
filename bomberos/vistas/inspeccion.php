@@ -1,3 +1,19 @@
+<?php
+
+$curl = curl_init();
+$url = 'http://localhost:5000/api/inspeccion';
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_HTTPGET, true);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+$inspecciones = [];
+if ($httpCode == 200) {
+    $inspecciones = json_decode($response);
+}
+
+?>
+
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -116,36 +132,6 @@
                                 <h3 class="card-title fs-4">Módulo de Inspecciones</h3>
                             </div>
                             <div class="card-body">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div class="row align-items-center grid">
-                                            <div class="col-auto">
-                                                <a href="inspeccion_nuevo.php" class="btn btn-outline-danger btn-bottom-right "><span class="fa fa-plus"></span>Nueva Inspección</a>
-                                            </div>
-                                            <div class="col-auto">
-                                                <label class="col-form-label">Mostar</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <select name="datatable-responsive_length" aria-controls="datatable-responsive" class="form-control input-sm">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <label class="col-form-label">Registros</label>
-                                            </div>
-                                            <div class="col-auto ">
-                                                <label class="col-form-label">Busqueda</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="card-body p-0">
                                     <div class="table-responsive">
                                         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;" width="100%" cellspacing="0">
@@ -154,48 +140,35 @@
                                                 <tr>
                                                     <th scope="col">Cod</th>
                                                     <th scope="col">Fecha:</th>
-                                                    <th scope="col">Señor /a:</th>
-                                                    <th scope="col">Propietario de:</th>
-                                                    <th scope="col">Dirección</th>
+                                                    <th scope="col">Contribuyente</th>
+                                                    <th scope="col">Local</th>
+                                                    <th scope="col">Calle principal</th>
+                                                    <th scope="col">Calle secundaria</th>
+                                                    <th scope="col">Parroquia</th>
+                                                    <th scope="col">Referencia</th>
                                                     <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php foreach ($inspecciones as $key => $value) {?>
                                                 <tr>
-                                                    <th>1</th>
-                                                    <td>12/01/2023</td>
-                                                    <td>Juan Brito</td>
-                                                    <td>Variedades JR</td>
-                                                    <td>Local</td>
+                                                    <th><?= $value->id ?></th>
+                                                    <td><?= date('d/m/Y', strtotime($value->fecha_creacion)) ?></td>
+                                                    <td><?= $value->contribuyente ?></td>
+                                                    <td><?= $value->local ?></td>
+                                                    <td><?= $value->calle_principal ?></td>
+                                                    <td><?= $value->calle_secundaria ?></td>
+                                                    <td><?= $value->parroquia ?></td>
+                                                    <td><?= $value->referencia ?></td>
                                                     <td>Pendiente</td>
                                                     <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#verinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarinspeccion"><i class="fa fa-pencil"></i></a>
                                                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="text-center text-danger">
-                                        © <span class="current-year"></span>
-                                        <a id="scroll-top" href="#" class="go-top">
-                                            <i class="fa fa-angle-up text-danger"></i>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
