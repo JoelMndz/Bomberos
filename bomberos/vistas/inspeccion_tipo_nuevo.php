@@ -1,3 +1,24 @@
+<?php
+    $error = null;
+    if(isset($_POST["descripcion"])){
+        $curl = curl_init();
+        $url = 'http://localhost:5000/api/tipo-inspeccion';
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if ($httpCode == 200) {
+            header("Location: ./inspeccion_tipo.php");
+            return;
+        }else{
+            $error = json_decode($response);    
+        }
+    }
+?>
+
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -23,24 +44,19 @@
                                         <div class="col-lg-12">
                                             <div class="panel panel-border panel-warning widget-s-1">
                                                 <div class="panel-body">
-                                                    <form class="row g-3">
+                                                    <?php if($error){ ?>
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                            <strong><?= $error->message?></strong> 
+                                                        </div>
+                                                    <?php }?>
+                                                    <form class="row g-3" method="post">
                                                         <div class="col-md-12">
-                                                            <label class="form-label">Nombre</label>
-                                                            <input type="text" class="form-control">
+                                                            <label class="form-label" for="descripcion">Nombre</label>
+                                                            <input type="text" class="form-control" name="descripcion" required>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <label class="form-label">Descripción</label>
-                                                            <input type="text" class="form-control">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <label class="form-label">Valor</label>
-                                                            <input type="float" class="form-control" placeholder="Valor que se cobrará">
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="gridCheck">
-                                                                <label class="form-check-label" for="gridCheck">Estado</label>
-                                                            </div>
+                                                            <label class="form-label" for="valor">Valor</label>
+                                                            <input type="number" class="form-control" name="valor" step="0.01" required>
                                                         </div>
                                                         <div class="panel-footer">
                                                             <a href="inspeccion_tipo.php" class="btn btn-dark"><span class="fa fa-mail-reply "></span> Regresar</a>

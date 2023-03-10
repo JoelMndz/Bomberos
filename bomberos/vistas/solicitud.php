@@ -1,3 +1,16 @@
+<?php
+$curl = curl_init();
+$url = 'http://localhost:5000/api/solicitud';
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_HTTPGET, true);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+$solicitudes = [];
+if ($httpCode == 200) {
+    $solicitudes = json_decode($response);
+}
+?>
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -149,7 +162,6 @@
                                 <div class="card-body p-0">
                                     <div class="table-responsive">
                                         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;" width="100%" cellspacing="0">
-
                                             <thead class="">
                                                 <tr>
                                                     <th scope="col">id</th>
@@ -162,40 +174,22 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php foreach ($solicitudes as $key => $value) { ?>
                                                 <tr>
-                                                    <th>1</th>
-                                                    <td>12/01/2023</td>
-                                                    <td>Juan Brito</td>
-                                                    <td>Variedades JR</td>
-                                                    <td>Local</td>
+                                                    <th><?= $value->id ?></th>
+                                                    <td><?= date('d/m/Y', strtotime($value->fecha_creacion)) ?></td>
+                                                    <td><?= $value->contribuyente ?></td>
+                                                    <td><?= $value->local ?></td>
+                                                    <td><?= $value->tipo_inspeccion ?></td>
                                                     <td>Ingresada</td>
                                                     <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#versolicitud"><i class="fa fa-search-plus"></i></a>
                                                         <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editarsolicitud"><i class="fa fa-pencil"></i></a>
                                                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="text-center text-danger">
-                                        © <span class="current-year"></span>
-                                        <a id="scroll-top" href="#" class="go-top">
-                                            <i class="fa fa-angle-up text-danger"></i>
-                                        </a>
                                     </div>
                                 </div>
                             </div>

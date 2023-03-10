@@ -5,26 +5,7 @@ export class InspeccionService{
   async getAll() {
     const db = connect();
     const sql = `
-      select
-      s.IntIdSolicitud as id_solicitud,
-      s.DateFecha as fecha,
-      l.StrNombreLocal as local,
-      l.StrCallePrincipal as calle_principal,
-      l.StrCalleSecundaria as calle_secundaria,
-      l.StringNCasa as numero_casa,
-      l.StringReferencia as referencia,
-      p.StrNombreParroquia as parroquia,
-      concat(c.StrNombreContribuyente,' ',c.StrApellidosContribuyente) as contribuyente,
-      c.StrNIdentidad as identidad,
-      c.StrTelefono as telefono,
-      o.StrDescripcion as descripcion,
-      i.IntIdInspeccion as id_inspeccion
-      from tblsolicitud as s
-      inner join tbllocal as l on l.IntIdLocal = s.IntIdLocal
-      inner join tblcontribuyente as c on c.IntIdContribuyente = l.IntIdContribuyente
-      inner join tblparroquia as p on p.IntIdParroquia = l.IntIdParroquia
-      inner join tblinspeccion as i on i.IntIdSolicitud = s.IntIdSolicitud
-      inner join tblobservaciones as o on o.IntIdInspeccion = i.IntIdInspeccion
+      
     `;
     const data = await db.query(sql);
     await db.end()
@@ -60,22 +41,11 @@ export class InspeccionService{
 
   async create(entity:any){
     const db = connect();
-    let sql = `
-      select max(IntIdInspeccion) as maximo from tblinspeccion`;
-    let result:any = await db.query(sql);
-    let idInspeccion = result[0][0]['maximo'] == null ? 1:1+result[0][0]['maximo']
-    
-    sql = `
-      insert into tblinspeccion(IntIdInspeccion,IntCodigoInspeccion,IntIdSolicitud,StrAprovacion) value
-      (
-        ${idInspeccion},
-        ${idInspeccion},
-        ${entity.idSolicitud},
-        'N/A'
-      )
+    const sql = `
+      
     `;
-    result = await db.query(sql);
-    await db.end()
+    const result = await db.query(sql);
+    await db.end();
     return result[0];
   }
 

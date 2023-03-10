@@ -1,56 +1,53 @@
 import {connect} from '../database'
 
+interface ISolicitud{
+  idLocal: number,
+  idTipoInspeccion: number,
+  idUsuario: number
+}
+
 export class SolicitudService{
 
-  async getAllPending() {
+  static async getAll() {
     const db = connect();
     const sql = `
-      select
-      s.IntIdSolicitud as id_solicitud,
-      s.DateFecha as fecha,
-      l.StrNombreLocal as local,
-      l.StrCallePrincipal as calle_principal,
-      l.StrCalleSecundaria as calle_secundaria,
-      l.StringNCasa as numero_casa,
-      l.StringReferencia as referencia,
-      p.StrNombreParroquia as parroquia,
-      concat(c.StrNombreContribuyente,' ',c.StrApellidosContribuyente) as contribuyente,
-      c.StrNIdentidad as identidad,
-      c.StrTelefono as telefono
-      from tblsolicitud as s
-      inner join tbllocal as l on l.IntIdLocal = s.IntIdLocal
-      inner join tblcontribuyente as c on c.IntIdContribuyente = l.IntIdContribuyente
-      inner join tblparroquia as p on p.IntIdParroquia = l.IntIdParroquia
-      left join tblinspeccion as i on i.IntIdSolicitud = s.IntIdSolicitud
-      where i.IntIdSolicitud is null
+      select 
+        s.id,
+        s.fecha_creacion,
+        s.estado,
+        s.id_usuario,
+        s.id_local,
+        s.id_tipo_inspeccion,
+        l.nombre as local,
+        concat(c.nombre,' ',c.apellidos) as contribuyente,
+        t.descripcion as tipo_inspeccion
+        from solicitudes as s
+          inner join locales as l on s.id_local = l.id
+          inner join contribuyentes as c on c.id = l.id_contribuyente
+          inner join tipo_inspeccion as t on t.id = s.id_tipo_inspeccion
     `;
     const result:any = await db.query(sql);
     await db.end()
     return result[0];
   }
 
-  async getAll() {
+  static async create(entity:ISolicitud){
+    if(!entity.idLocal){
+      throw new Error('Debe enviar el idLocal');
+    }
+    if(!entity.idTipoInspeccion){
+      throw new Error('Debe enviar el idTipoInspeccion');
+    }
+    if(!entity.idUsuario){
+      throw new Error('Debe enviar el idUsuario');
+    }
     const db = connect();
     const sql = `
-      select
-      s.IntIdSolicitud as id_solicitud,
-      s.DateFecha as fecha,
-      l.StrNombreLocal as local,
-      l.StrCallePrincipal as calle_principal,
-      l.StrCalleSecundaria as calle_secundaria,
-      l.StringNCasa as numero_casa,
-      l.StringReferencia as referencia,
-      p.StrNombreParroquia as parroquia,
-      concat(c.StrNombreContribuyente,' ',c.StrApellidosContribuyente) as contribuyente,
-      c.StrNIdentidad as identidad,
-      c.StrTelefono as telefono
-      from tblsolicitud as s
-      inner join tbllocal as l on l.IntIdLocal = s.IntIdLocal
-      inner join tblcontribuyente as c on c.IntIdContribuyente = l.IntIdContribuyente
-      inner join tblparroquia as p on p.IntIdParroquia = l.IntIdParroquia
+      insert into solicitudes(id_usuario, id_tipo_inspeccion, id_local) 
+        values(${entity.idUsuario},${entity.idTipoInspeccion},${entity.idLocal});
     `;
     const result:any = await db.query(sql);
-    await db.end()
+    await db.end();
     return result[0];
   }
 

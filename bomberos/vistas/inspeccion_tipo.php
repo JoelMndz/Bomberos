@@ -1,4 +1,32 @@
-<?php require('../vistas/layout/header.php') ?>
+<?php
+$tipoInspecciones = [];
+if(isset($_GET["id"])){
+    $curl = curl_init();
+    $url = 'http://localhost:5000/api/tipo-inspeccion/'.$_GET['id'];
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+}
+
+$curl = curl_init();
+$url = 'http://localhost:5000/api/tipo-inspeccion';
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_HTTPGET, true);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+curl_close($curl);
+if ($httpCode == 200) {
+    $tipoInspecciones = json_decode($response);    
+}
+
+?>
+<?php 
+require('../vistas/layout/header.php');
+?>
 
 <!-- /.navbar -->
 <title>Sistema de Permisos | Tipo de Inspección</title>
@@ -132,53 +160,30 @@
                                                 <tr>
                                                     <th scope="col">id</th>
                                                     <th scope="col">Nombre</th>
-                                                    <th scope="col">Descripción</th>
                                                     <th scope="col">Valor</th>
                                                     <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php
+                                                    foreach ($tipoInspecciones as $key => $value) {
+                                                ?>
                                                 <tr>
-                                                    <th>1</th>
-                                                    <td>Locales</td>
-                                                    <td>Sin valor</td>
-                                                    <td>0</td>
-                                                    <td>Habilitado</td>
+                                                    <th><?= $value->id ?></th>
+                                                    <td><?= $value->descripcion ?></td>
+                                                    <td><?= $value->valor ?></td>
+                                                    <td><?= $value->estado == 1 ? 'Habilitado' : 'Deshabilitado' ?></td>
                                                     <td>
                                                         <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
                                                         <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        <a href="inspeccion_tipo.php?id=<?= $value->id ?>" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>Ejemplo</td>
-                                                    <td>Sin valor</td>
-                                                    <td>1.5</td>
-                                                    <td>Habilitado</td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Anterior</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link text-danger" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
                                 </div>
                                 <div class="cadr-footer">
                                     <div class="text-center text-danger">

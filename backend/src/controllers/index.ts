@@ -8,6 +8,7 @@ import {RangoController} from './rango'
 import {ContribuyenteController} from './contribuyente'
 import {ParroquiaController} from './parroquia'
 import {LocalController} from './local'
+import {TipoInspeccionController} from './tipoInspeccion'
 
 export default{
   AuthController,
@@ -19,5 +20,6 @@ export default{
   RangoController,
   ContribuyenteController,
   ParroquiaController,
-  LocalController
+  LocalController,
+  TipoInspeccionController,
 }

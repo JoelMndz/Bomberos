@@ -84,7 +84,7 @@
                                     <div class="row">
                                         <div class="row align-items-center grid">
                                             <div class="col-auto">
-                                                <a href="inspeccion_tipo_nuevo.php" class="btn btn-outline-danger btn-bottom-right "><span class="fa fa-plus"></span>Nuevo Tipo Inspección</a>
+                                                <a href="privilegio_nuevo.php" class="btn btn-outline-danger btn-bottom-right "><span class="fa fa-plus"></span>Nuevo privilegio</a>
                                             </div>
                                             <div class="col-auto">
                                                 <label class="col-form-label">Mostar</label>

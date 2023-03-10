@@ -29,7 +29,7 @@ export class Server{
 
     this.app.use('/api/auth', routes.AuthRouter);
     this.app.use('/api/solicitud', routes.SolicitudRouter);
-    this.app.use('/api/inspeccion', routes.InspeccionRouter);
+    //this.app.use('/api/inspeccion', routes.InspeccionRouter);
     this.app.use('/api/usuario', routes.UsuarioRouter);
     this.app.use('/api/informacion', routes.InformacionRouter);
     this.app.use('/api/rol', routes.RolRouter);
@@ -37,6 +37,7 @@ export class Server{
     this.app.use('/api/contribuyente', routes.ContribuyenteRouter);
     this.app.use('/api/parroquia', routes.ParroquiaRouter);
     this.app.use('/api/local', routes.LocalRouter);
+    this.app.use('/api/tipo-inspeccion', routes.TipoInspeccionRouter)
   }
   
   middlewares() {

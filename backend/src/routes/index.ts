@@ -8,6 +8,7 @@ import RangoRouter from './rango'
 import ContribuyenteRouter from './contribuyente'
 import ParroquiaRouter from './parroquia'
 import LocalRouter from './local'
+import TipoInspeccionRouter from './tipoInspeccion'
 
 export default{
   AuthRouter,
@@ -19,5 +20,6 @@ export default{
   RangoRouter,
   ContribuyenteRouter,
   ParroquiaRouter,
-  LocalRouter
+  LocalRouter,
+  TipoInspeccionRouter
 }

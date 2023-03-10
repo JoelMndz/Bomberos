@@ -1,7 +1,10 @@
 <?php
-  session_start();
+  if(session_status() != PHP_SESSION_ACTIVE){
+    session_start();
+  }
+  
   $nombre = null;
-  if($_SESSION["user"]){
+  if(isset($_SESSION["user"])){
     $nombre = $_SESSION['user']->nombre." ".$_SESSION['user']->apellidos;
   }
 ?>
@@ -67,7 +70,7 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="../salir.php">
+              <a class="dropdown-item d-flex align-items-center" href="salir.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Cerrar Sesion</span>
               </a>
@@ -304,7 +307,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="../../controllers/salir.php" class="nav-link">
+              <a href="salir.php" class="nav-link">
                 <i class="fa-sharp fa-solid fa-door-closed nav-icon text-danger"></i>
                 <p class="text-danger">
                   Cerrar Sesion
