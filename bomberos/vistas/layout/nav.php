@@ -6,6 +6,8 @@
   $nombre = null;
   if(isset($_SESSION["user"])){
     $nombre = $_SESSION['user']->nombre." ".$_SESSION['user']->apellidos;
+  }else{
+    header("Location: ../index.php");
   }
 ?>
 <script src="https://kit.fontawesome.com/934a7d2bb6.js" crossorigin="anonymous"></script>
