@@ -110,24 +110,7 @@
                             <div class="card-header">
                                 <h3 class="card-title fs-4">Sobre la Empresa</h3>
                             </div>
-                            <div class="row pt-2">
-                                <div class="col-sm-6">
-                                    <div class="text-center">
-                                        <img src="../img/avatar1.png" class="profile-user-img img-fluid img-circle" alt="">
-                                    </div>
-                                    <div class="text-center mt-1">
-                                        <button type="button" data-toggle="modal" data-target="#cambiophoto" class="btn btn-outline-dark btn-sm">Cambiar avatar</button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="text-center">
-                                        <img src="../img/avatar1.png" class="profile-user-img img-fluid img-circle" alt="">
-                                    </div>
-                                    <div class="text-center mt-1">
-                                        <button type="button" data-toggle="modal" data-target="#cambiophoto" class="btn btn-outline-dark btn-sm">Cambiar avatar</button>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="card-body">
                                 <strong class="text-primary">
                                     <i class="fas fa-phone mr-1"></i>Nombre de la Empresa

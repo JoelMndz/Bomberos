@@ -3,6 +3,7 @@ import { generateToken } from '../utils/generateToken';
 import jwt from 'jsonwebtoken'
 import config from '../config';
 import { UsuarioService } from './usuario';
+import {createTransport, Transporter} from 'nodemailer';
 
 export class AuthService{
   
@@ -95,4 +96,51 @@ export class AuthService{
 
     return {...usuario, token}
   }
+
+  static async recoveryPassword(email:string){
+    if(!email){
+      throw new Error('Debe enviar el email');
+    }
+    const db = connect();
+    const result:any = await db.query(`select * from usuarios 
+      where email='${email}'`);
+      
+    if(result[0].length == 0){
+      const error = new Error('El email no existe!');
+      throw error;
+    }
+
+    let password = '';
+    for (let i = 0; i < 8; i++) {
+      password += Math.floor(Math.random()*10);  
+    }
+    await db.query(`update usuarios 
+      set password='${password}'
+      where email='${email}'`)
+
+    const transporte = createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: config.EMAIL_USER, 
+        pass: config.EMAIL_PASSWORD
+      }
+    });
+    const resultado = await transporte.verify();
+    if(resultado){
+      await transporte.sendMail({
+        from: `<${config.EMAIL_USER}>`,
+        to: email,
+        subject: "Nueva clave",
+        html: `
+          Clave: ${password}
+        `
+      });
+    }
+    await db.end()
+    return {email};
+  }
+
+
 }

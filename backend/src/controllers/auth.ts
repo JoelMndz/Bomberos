@@ -29,4 +29,13 @@ export class AuthController{
       manejarError(error,res);
     }
   }
+
+  static async recoveryPassword(req:Request, res:Response){
+    try {
+      const data = await services.AuthService.recoveryPassword(req.body.email);
+      res.json(data);
+    } catch (error:any) {
+      manejarError(error,res);
+    }
+  }
 }

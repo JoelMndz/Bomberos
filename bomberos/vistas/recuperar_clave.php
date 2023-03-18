@@ -1,10 +1,9 @@
 <?php
-    session_start();
     if(isset($_POST["email"])){
         $curl = curl_init();
-        $url = 'http://localhost:5000/api/auth/login';
+        $url = 'http://localhost:5000/api/auth/recuperar-clave';
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
@@ -12,10 +11,8 @@
         curl_close($curl);
         if ($httpCode == 200) {
             $_SESSION["user"] = json_decode($response);
-            header("Location: ./vistas/usuario.php");
+            header("Location: ../index.php");
             return;
-        }else{
-            $_SESSION["error"] = "Credenciales incorrectas!";
         }
         
     }   
@@ -27,7 +24,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Login - Sistema de Permisos</title>
+    <title>Recuperar Contraseña</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -42,7 +39,7 @@
         rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="css/style_login.css" rel="stylesheet">
+    <link href="../css/style_login.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
@@ -61,41 +58,22 @@
 
                                 <div class="text-center  justify-content-center py-2">
                                     <a href="index.php" class="text-muted text-decoration-none">
-                                        <img class="img-responsive" src="img/escudo_sin.png" width="150" alt="">
+                                        <img class="img-responsive" src="../img/escudo_sin.png" width="150" alt="">
                                         <h3 class="d-lg-block letra">Bomberos de Azogues</h3>
                                     </a>
                                 </div><!-- End Logo -->
                                 <div class="card-body">
                                     <div class="pt-2 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4 letra">¡Bienvenido!</h5>
-                                        <p class="text-center small">Ingrese correo y contraseña para
-                                            iniciar sesión</p>
+                                        <h5 class="card-title text-center pb-0 fs-4 letra">Recuperar clave</h5>
+                                        <p class="text-center small">Una vez enviado el formulario le llegara su nueva clave por email</p>
                                     </div>
-                                    <?php if(isset($_SESSION['error'])){ ?>
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <strong><?= $_SESSION['error']?></strong> 
-                                        </div>
-                                    <?php unset($_SESSION['error']); }?>
-                                    <form class="row g-2 " method="post" action="index.php">
+                                    <form class="row g-2 " method="post">
                                         <div class="col-12">
                                             <label for="email" class="form-label">Correo</label>
-                                            <input type="email" name="email" id="email" class="form-control form-control-user">
+                                            <input type="email" name="email" id="email" class="form-control form-control-user" required>
                                         </div>
                                         <div class="col-12">
-                                            <label for="password" class="form-label">Contraseña</label>
-                                            <a class="text-muted text-decoration-none" href="./vistas/recuperar_clave.php">¿Olvidaste tu contraseña?</a>
-                                            <input type="password" name="password" class="form-control form-control-user" >
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    value="true" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Recuerdame</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="inicio text-white" type="submit">Iniciar
-                                                Sesión</button>
+                                          <button class="inicio text-white" type="submit">Recuperar</button>
                                         </div>
                                     </form>
                                 </div>
@@ -107,9 +85,7 @@
                 </div>
             </section>
         </div>
-    </main><!-- End #main -->
-    <!-- Template Main JS File -->
-    <script src="js/login.js"></script>
+    </main>
 </body>
 
 </html>
