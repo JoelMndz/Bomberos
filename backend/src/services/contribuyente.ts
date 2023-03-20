@@ -12,9 +12,13 @@ interface IContribuyente{
 }
 
 export class ContribuyenteService{
-  static async getAll(){
+  static async getAll(filtro = ''){
     const db = connect();
-    const data = await db.query('select * from contribuyentes') as any;
+    const sql  =`
+    select * from contribuyentes 
+    where nombre like '%${filtro}%' or apellidos like '%${filtro}%'
+    `;
+    const data = await db.query(sql) as any;
     await db.end();
     return data[0];
   }

@@ -1,3 +1,23 @@
+<?php   
+    $data = [];
+    $url = 'http://localhost:5000/api/contribuyente';
+    if(isset($_POST['filtro'])){
+        $url = $url.'?filtro='.$_POST['filtro'];
+    }
+
+    $curl = curl_init();
+    
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPGET, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    if ($httpCode == 200) {
+        $data = json_decode($response);
+    }
+?>
+
 <?php require('../vistas/layout/header.php') ?>
 
 <!-- /.navbar -->
@@ -150,21 +170,19 @@
                                             <div class="col-auto">
                                                 <label class="col-form-label">Registros</label>
                                             </div>
-                                            <div class="col-auto ">
-                                                <label class="col-form-label">Busqueda</label>
-                                            </div>
 
-
-                                            <form action="buscar.php" method="GET">
-                                                <input type="text" name="q" placeholder="Escribe aquí tu búsqueda">
-                                                <button type="submit">Buscar</button>
+                                            <form method="post" class="col-auto row">
+                                                <div class="col-auto">
+                                                    <input class="form-control col-auto" type="text" name="filtro" placeholder="Nombre o apellido">
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button type="submit" class="btn btn-outline-danger">Buscar</button>
+                                                </div>
                                             </form>
 
 
 
-                                            <div class="col-auto">
-                                                <input type="search" class="form-control input-sm" placeholder="Escribe aquí tu búsqueda" aria-controls="datatable-responsive">
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -190,16 +208,6 @@
                                             <tbody>
                                                 <!-- Cargar Contribuyentes-->
                                                 <?php
-                                                $curl = curl_init();
-                                                $url = 'http://localhost:5000/api/contribuyente';
-                                                curl_setopt($curl, CURLOPT_URL, $url);
-                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
-                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                                $response = curl_exec($curl);
-                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                curl_close($curl);
-                                                if ($httpCode == 200) {
-                                                    $data = json_decode($response);
                                                     foreach ($data as $key => $value) {
                                                         echo "<tr>";
                                                         echo "<th>" . $value->id . "</th>";
@@ -219,9 +227,6 @@
                                                         echo "</td>";
                                                         echo "</tr>";
                                                     }
-                                                } else {
-                                                    echo "Error, no se pudieron obtener los datos";
-                                                }
                                                 ?>
                                             </tbody>
                                         </table>

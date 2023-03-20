@@ -5,7 +5,7 @@ import { manejarError } from "../utils/manejarError";
 export class ContribuyenteController{
   static async getAll(req:Request, res:Response) {
     try {
-      const data = await services.ContribuyenteService.getAll();
+      const data = await services.ContribuyenteService.getAll(req.query.filtro as string);
       res.json(data);
     } catch (error:any) {
       manejarError(error,res);
