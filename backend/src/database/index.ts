@@ -4,7 +4,7 @@ export function connect(){
   const connection = createPool({
     host:'localhost',
     user:'root',
-    password:'admin',
+    password:'karito2008',
     database:'db_bomberos',
     connectionLimit: 10
   });

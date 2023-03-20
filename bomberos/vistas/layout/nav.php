@@ -10,6 +10,7 @@
     header("Location: ../index.php");
   }
 ?>
+<link rel="shortcut icon" href="../img/favicon.png">
 <script src="https://kit.fontawesome.com/934a7d2bb6.js" crossorigin="anonymous"></script>
 
 <!-- Font Awesome -->
@@ -20,6 +21,7 @@
 
 <!-- Theme style -->
 <link rel="stylesheet" href="../css/adminlte.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -232,7 +234,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../layout/collapsed-sidebar.html" class="nav-link">
+                  <a href="../vistas/reporte_permisos.php" class="nav-link">
                     <i class="fa-solid fa-file-lines nav-icon text-info"></i>
                     <p class="text-info">Inspecciones Pendientes</p>
                   </a>

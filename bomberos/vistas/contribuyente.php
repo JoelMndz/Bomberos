@@ -153,8 +153,17 @@
                                             <div class="col-auto ">
                                                 <label class="col-form-label">Busqueda</label>
                                             </div>
+
+
+                                            <form action="buscar.php" method="GET">
+                                                <input type="text" name="q" placeholder="Escribe aquí tu búsqueda">
+                                                <button type="submit">Buscar</button>
+                                            </form>
+
+
+
                                             <div class="col-auto">
-                                                <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
+                                                <input type="search" class="form-control input-sm" placeholder="Escribe aquí tu búsqueda" aria-controls="datatable-responsive">
                                             </div>
                                         </div>
                                     </div>
@@ -179,40 +188,40 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <!-- Cargar Contribuyentes--> 
-                                                <?php 
-                                                    $curl = curl_init();
-                                                    $url = 'http://localhost:5000/api/contribuyente';
-                                                    curl_setopt($curl, CURLOPT_URL, $url);
-                                                    curl_setopt($curl, CURLOPT_HTTPGET, true);
-                                                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                                    $response = curl_exec($curl);
-                                                    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                                                    curl_close($curl);
-                                                    if ($httpCode == 200) {
-                                                        $data = json_decode($response);    
-                                                        foreach ($data as $key => $value) {
-                                                            echo "<tr>";
-                                                            echo "<th>".$value->id."</th>";
-                                                            echo "<td>".$value->identificacion."</td>";
-                                                            echo "<td>".$value->nombre."</td>";
-                                                            echo "<td>".$value->apellidos."</td>";
-                                                            echo "<td>".date('d/m/Y', strtotime($value->fecha_nacimiento))."</td>";
-                                                            echo "<td>".$value->direccion."</td>";
-                                                            echo "<td>".$value->telefono."</td>";
-                                                            echo "<td>".$value->email."</td>";
-                                                            echo "<td>".$value->discapacidad."</td>";
-                                                            $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
-                                                            echo "<td>".$estado."</td>";
-                                                            echo "<td>";
-                                                            echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarcontribuyente'><i class='fa fa-pencil'></i></a>";
-                                                            echo "<a href='contribuyente.php?id=".$value->id."' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
-                                                            echo "</td>";
-                                                            echo "</tr>";
-                                                        }
-                                                    } else {
-                                                        echo "Error, no se pudieron obtener los datos";
+                                                <!-- Cargar Contribuyentes-->
+                                                <?php
+                                                $curl = curl_init();
+                                                $url = 'http://localhost:5000/api/contribuyente';
+                                                curl_setopt($curl, CURLOPT_URL, $url);
+                                                curl_setopt($curl, CURLOPT_HTTPGET, true);
+                                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                                $response = curl_exec($curl);
+                                                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                                curl_close($curl);
+                                                if ($httpCode == 200) {
+                                                    $data = json_decode($response);
+                                                    foreach ($data as $key => $value) {
+                                                        echo "<tr>";
+                                                        echo "<th>" . $value->id . "</th>";
+                                                        echo "<td>" . $value->identificacion . "</td>";
+                                                        echo "<td>" . $value->nombre . "</td>";
+                                                        echo "<td>" . $value->apellidos . "</td>";
+                                                        echo "<td>" . date('d/m/Y', strtotime($value->fecha_nacimiento)) . "</td>";
+                                                        echo "<td>" . $value->direccion . "</td>";
+                                                        echo "<td>" . $value->telefono . "</td>";
+                                                        echo "<td>" . $value->email . "</td>";
+                                                        echo "<td>" . $value->discapacidad . "</td>";
+                                                        $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
+                                                        echo "<td>" . $estado . "</td>";
+                                                        echo "<td>";
+                                                        echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarcontribuyente'><i class='fa fa-pencil'></i></a>";
+                                                        echo "<a href='contribuyente.php?id=" . $value->id . "' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                        echo "</td>";
+                                                        echo "</tr>";
                                                     }
+                                                } else {
+                                                    echo "Error, no se pudieron obtener los datos";
+                                                }
                                                 ?>
                                             </tbody>
                                         </table>

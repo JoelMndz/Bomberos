@@ -29,7 +29,6 @@
 <!-- /.navbar -->
 <title>Sistema de Permisos | Configuración</title>
 
-
 <!-- Main Sidebar Container -->
 <?php include_once('../vistas/layout/nav.php') ?>
 
