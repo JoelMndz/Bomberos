@@ -1,21 +1,21 @@
-<?php   
-    $data = [];
-    $url = 'http://localhost:5000/api/contribuyente';
-    if(isset($_POST['filtro'])){
-        $url = $url.'?filtro='.$_POST['filtro'];
-    }
+<?php
+$data = [];
+$url = 'http://localhost:5000/api/contribuyente';
+if (isset($_POST['filtro'])) {
+    $url = $url . '?filtro=' . $_POST['filtro'];
+}
 
-    $curl = curl_init();
-    
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_HTTPGET, true);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($curl);
-    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);
-    if ($httpCode == 200) {
-        $data = json_decode($response);
-    }
+$curl = curl_init();
+
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_HTTPGET, true);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+curl_close($curl);
+if ($httpCode == 200) {
+    $data = json_decode($response);
+}
 ?>
 
 <?php require('../vistas/layout/header.php') ?>
@@ -178,11 +178,10 @@
                                                 <div class="col-auto">
                                                     <button type="submit" class="btn btn-outline-danger">Buscar</button>
                                                 </div>
+                                                <div class="col-auto">
+                                                    <a href="../reporte_contribuyente.php" target="_blank" class="btn btn-outline-danger btn-bottom-right ">Imprimir PDF</a>
+                                                </div>
                                             </form>
-
-
-
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -208,25 +207,25 @@
                                             <tbody>
                                                 <!-- Cargar Contribuyentes-->
                                                 <?php
-                                                    foreach ($data as $key => $value) {
-                                                        echo "<tr>";
-                                                        echo "<th>" . $value->id . "</th>";
-                                                        echo "<td>" . $value->identificacion . "</td>";
-                                                        echo "<td>" . $value->nombre . "</td>";
-                                                        echo "<td>" . $value->apellidos . "</td>";
-                                                        echo "<td>" . date('d/m/Y', strtotime($value->fecha_nacimiento)) . "</td>";
-                                                        echo "<td>" . $value->direccion . "</td>";
-                                                        echo "<td>" . $value->telefono . "</td>";
-                                                        echo "<td>" . $value->email . "</td>";
-                                                        echo "<td>" . $value->discapacidad . "</td>";
-                                                        $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
-                                                        echo "<td>" . $estado . "</td>";
-                                                        echo "<td>";
-                                                        echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarcontribuyente'><i class='fa fa-pencil'></i></a>";
-                                                        echo "<a href='contribuyente.php?id=" . $value->id . "' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
-                                                        echo "</td>";
-                                                        echo "</tr>";
-                                                    }
+                                                foreach ($data as $key => $value) {
+                                                    echo "<tr>";
+                                                    echo "<th>" . $value->id . "</th>";
+                                                    echo "<td>" . $value->identificacion . "</td>";
+                                                    echo "<td>" . $value->nombre . "</td>";
+                                                    echo "<td>" . $value->apellidos . "</td>";
+                                                    echo "<td>" . date('d/m/Y', strtotime($value->fecha_nacimiento)) . "</td>";
+                                                    echo "<td>" . $value->direccion . "</td>";
+                                                    echo "<td>" . $value->telefono . "</td>";
+                                                    echo "<td>" . $value->email . "</td>";
+                                                    echo "<td>" . $value->discapacidad . "</td>";
+                                                    $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
+                                                    echo "<td>" . $estado . "</td>";
+                                                    echo "<td>";
+                                                    echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editarcontribuyente'><i class='fa fa-pencil'></i></a>";
+                                                    echo "<a href='contribuyente.php?id=" . $value->id . "' title='Eliminar' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a>";
+                                                    echo "</td>";
+                                                    echo "</tr>";
+                                                }
                                                 ?>
                                             </tbody>
                                         </table>

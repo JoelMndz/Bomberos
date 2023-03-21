@@ -38,7 +38,7 @@
           <a href="principal.php" class="nav-link">Inicio</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="quienes_somos.php" class="nav-link">Quienes Somos</a>
+          <a href="https://bomberosazogues.gob.ec/" target="_blank" class="nav-link">Quienes Somos</a>
         </li>
       </ul>
 

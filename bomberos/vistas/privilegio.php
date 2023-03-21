@@ -107,6 +107,9 @@
                                             <div class="col-auto">
                                                 <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
                                             </div>
+                                            <div class="col-auto">
+                                                <a href="../reporte_privilegio.php" target="_blank" class="btn btn-outline-danger btn-bottom-right ">Imprimir PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +126,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               <!-- Consumo de API - Privilegios -->
-                                            <?php
+                                                <!-- Consumo de API - Privilegios -->
+                                                <?php
                                                 $curl = curl_init();
                                                 $url = 'http://localhost:5000/api/rol';
                                                 curl_setopt($curl, CURLOPT_URL, $url);
@@ -133,13 +136,13 @@
                                                 $response = curl_exec($curl);
                                                 $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                                                 if ($httpCode == 200) {
-                                                    $data = json_decode($response);    
+                                                    $data = json_decode($response);
                                                     foreach ($data as $key => $value) {
                                                         echo "<tr>";
-                                                        echo "<td>".$value->id."</td>";
-                                                        echo "<td>".$value->descripcion."</td>";
+                                                        echo "<td>" . $value->id . "</td>";
+                                                        echo "<td>" . $value->descripcion . "</td>";
                                                         $value->estado == 1 ? $estado = "Habilitado" : $estado = "Deshabilitado";
-                                                        echo "<td>".$estado."</td>";
+                                                        echo "<td>" . $estado . "</td>";
                                                         echo "<td>";
                                                         echo "<a href='#' title='Ver Tipo' class='btn btn-dark btn-xs' data-bs-toggle='modal' data-bs-target='#vertipoinspeccion'><i class='fa fa-search-plus'></i></a>";
                                                         echo "<a href='#' title='Editar' class='btn btn-primary btn-xs' data-bs-toggle='modal' data-bs-target='#editartipoinspeccion'><i class='fa fa-pencil'></i></a>";
@@ -151,7 +154,7 @@
                                                     echo "Error, no se pudieron obtener los datos";
                                                 }
                                                 curl_close($curl);
-                                            ?>
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>

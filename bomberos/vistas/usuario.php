@@ -142,6 +142,9 @@
                                             <div class="col-auto">
                                                 <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
                                             </div>
+                                            <div class="col-auto">
+                                                <a href="../reporte_usuarios.php" target="_blank" class="btn btn-outline-danger btn-bottom-right ">Imprimir PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -1,8 +1,8 @@
 <?php
 $tipoInspecciones = [];
-if(isset($_GET["id"])){
+if (isset($_GET["id"])) {
     $curl = curl_init();
-    $url = 'http://localhost:5000/api/tipo-inspeccion/'.$_GET['id'];
+    $url = 'http://localhost:5000/api/tipo-inspeccion/' . $_GET['id'];
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -20,11 +20,11 @@ $response = curl_exec($curl);
 $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 curl_close($curl);
 if ($httpCode == 200) {
-    $tipoInspecciones = json_decode($response);    
+    $tipoInspecciones = json_decode($response);
 }
 
 ?>
-<?php 
+<?php
 require('../vistas/layout/header.php');
 ?>
 
@@ -149,6 +149,9 @@ require('../vistas/layout/header.php');
                                             <div class="col-auto">
                                                 <input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
                                             </div>
+                                            <div class="col-auto">
+                                                <a href="../reporte_tipo_inspeccion.php" target="_blank" class="btn btn-outline-danger btn-bottom-right ">Imprimir PDF</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,19 +170,19 @@ require('../vistas/layout/header.php');
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    foreach ($tipoInspecciones as $key => $value) {
+                                                foreach ($tipoInspecciones as $key => $value) {
                                                 ?>
-                                                <tr>
-                                                    <th><?= $value->id ?></th>
-                                                    <td><?= $value->descripcion ?></td>
-                                                    <td><?= $value->valor ?></td>
-                                                    <td><?= $value->estado == 1 ? 'Habilitado' : 'Deshabilitado' ?></td>
-                                                    <td>
-                                                        <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
-                                                        <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
-                                                        <a href="inspeccion_tipo.php?id=<?= $value->id ?>" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <th><?= $value->id ?></th>
+                                                        <td><?= $value->descripcion ?></td>
+                                                        <td><?= $value->valor ?></td>
+                                                        <td><?= $value->estado == 1 ? 'Habilitado' : 'Deshabilitado' ?></td>
+                                                        <td>
+                                                            <a href="#" title="Ver Tipo" class="btn btn-dark btn-xs" data-bs-toggle="modal" data-bs-target="#vertipoinspeccion"><i class="fa fa-search-plus"></i></a>
+                                                            <a href="#" title="Editar" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#editartipoinspeccion"><i class="fa fa-pencil"></i></a>
+                                                            <a href="inspeccion_tipo.php?id=<?= $value->id ?>" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+                                                    </tr>
                                                 <?php } ?>
                                             </tbody>
                                         </table>
