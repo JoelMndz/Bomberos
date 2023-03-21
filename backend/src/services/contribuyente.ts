@@ -23,6 +23,20 @@ export class ContribuyenteService{
     return data[0];
   }
 
+  static async getById(id:string){
+    const db = connect();
+    const sql  =`
+    select * from contribuyentes 
+    where identificacion='${id}'
+    `;
+    const data = await db.query(sql) as any;
+    await db.end();
+    if(data[0].length == 0){
+      throw new Error("No existe el contribuyente");
+    }
+    return data[0][0];
+  }
+
   static async create(entity:IContribuyente){
     if(!entity.identificacion){
       throw new Error('La identificacion es requerida!');

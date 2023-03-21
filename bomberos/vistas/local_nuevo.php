@@ -4,10 +4,25 @@ require('../vistas/layout/header.php');
 $error = null;
 $contribuyentes = [];
 $parroquias = [];
+$contribuyente = null;
 
-if(isset($_POST["nombre"])){
+if(isset($_POST['buscar'])){
+    $curl = curl_init();
+    $url = 'http://localhost:5000/api/contribuyente/'.$_POST['identificacion'];
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    if($httpCode == 200){
+        $contribuyente = json_decode($response);
+    }
+}
+if(isset($_POST["guardar"])){
     $curl = curl_init();
     $url = 'http://localhost:5000/api/local';
+    $_POST["idContribuyente"] = $_GET["idContribuyente"];
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_POST));
@@ -21,18 +36,6 @@ if(isset($_POST["nombre"])){
     }else{
         $error = json_decode($response);    
     }
-}
-
-$curl = curl_init();
-$url = 'http://localhost:5000/api/contribuyente';
-curl_setopt($curl, CURLOPT_URL, $url);
-curl_setopt($curl, CURLOPT_HTTPGET, true);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$response = curl_exec($curl);
-$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-curl_close($curl);
-if ($httpCode == 200) {
-    $contribuyentes = json_decode($response);    
 }
 
 $curl = curl_init();
@@ -82,14 +85,21 @@ if ($httpCode == 200) {
                                                             <strong><?= $error->message?></strong> 
                                                         </div>
                                                     <?php }?>
-                                                    <form class="row g-3" method="post">
+                                                    <form class="row g-3" method="post" action="local_nuevo.php<?= $contribuyente ? '?idContribuyente='.$contribuyente->id:''?>">
+                                                        <?php 
+                                                            if(!$contribuyente){
+                                                        ?>
                                                         <div class="col-md-4">
-                                                            <label for="idContribuyente" class="form-label">Dueño del local</label>
-                                                            <select class="form-select" name="idContribuyente" required>
-                                                                <?php foreach ($contribuyentes as $key => $value) { ?>
-                                                                    <option value="<?=$value->id?>"><?= $value->nombre." ".$value->apellidos?></option>
-                                                                <?php } ?>
-                                                            </select>
+                                                            <label for="identificaion"  class="form-label p-0">Buscar por la identificación</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" name="identificacion" <?php echo (!$contribuyente ? 'required':'') ?>>
+                                                                <input type="submit" name="buscar" class="btn btn-outline-danger"></input>
+                                                            </div>
+                                                        </div>
+                                                        <?php } else{?>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Contribuyente</label>
+                                                            <input type="text" class="form-control" id="" value="<?= $contribuyente ? $contribuyente->nombre.' '.$contribuyente->apellidos: '' ?>" disabled>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="nombre" class="form-label">Nombre</label>
@@ -119,9 +129,14 @@ if ($httpCode == 200) {
                                                             <label for="referencia" class="form-label">Referencias</label>
                                                             <input type="text" class="form-control" name="referencia" required>
                                                         </div>
+                                                        <?php }?>
                                                         <div class="panel-footer">
                                                             <a href="local.php" class="btn btn-dark"><span class="fa fa-mail-reply "></span> Regresar</a>
-                                                            <button type="submit" name="btn-submit" id="btn-submit" class="btn btn-primary"><span class="fa fa-save"></span> Registrar</button>
+                                                            <?php 
+                                                                if($contribuyente){
+                                                            ?>
+                                                            <button type="submit" name="guardar" id="btn-submit" value="Guardar" class="btn btn-primary"><span class="fa fa-save"></span>Guardar</button>
+                                                            <?php } ?>
                                                             <button class="btn btn-danger" type="reset"><span class="fa fa-times"></span> Cancelar</button>
                                                         </div>
                                                     </form>

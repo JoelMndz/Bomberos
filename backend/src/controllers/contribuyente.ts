@@ -12,6 +12,15 @@ export class ContribuyenteController{
     } 
   }
 
+  static async getById(req:Request, res:Response) {
+    try {
+      const data = await services.ContribuyenteService.getById(req.params.id as string);
+      res.json(data);
+    } catch (error:any) {
+      manejarError(error,res);
+    } 
+  }
+
   static async create(req:Request, res:Response) {
     try {
       const data = await services.ContribuyenteService.create(req.body);
