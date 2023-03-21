@@ -87,6 +87,6 @@ export class ContribuyenteService{
       });
       return respuesta;
     }
-    return data[0];
+    throw new Error('No existen locales');
   }
 }

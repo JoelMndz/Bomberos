@@ -9,7 +9,7 @@ export class ContribuyenteController{
       res.json(data);
     } catch (error:any) {
       manejarError(error,res);
-    }
+    } 
   }
 
   static async create(req:Request, res:Response) {
