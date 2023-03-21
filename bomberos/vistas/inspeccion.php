@@ -141,6 +141,7 @@ if ($httpCode == 200) {
                                                     <th scope="col">Cod</th>
                                                     <th scope="col">Fecha:</th>
                                                     <th scope="col">Contribuyente</th>
+                                                    <th scope="col">Observación</th>
                                                     <th scope="col">Local</th>
                                                     <th scope="col">Calle principal</th>
                                                     <th scope="col">Calle secundaria</th>
@@ -156,14 +157,25 @@ if ($httpCode == 200) {
                                                     <th><?= $value->id ?></th>
                                                     <td><?= date('d/m/Y', strtotime($value->fecha_creacion)) ?></td>
                                                     <td><?= $value->contribuyente ?></td>
+                                                    <td><?= $value->observacion ?? '--' ?></td>
                                                     <td><?= $value->local ?></td>
                                                     <td><?= $value->calle_principal ?></td>
                                                     <td><?= $value->calle_secundaria ?></td>
                                                     <td><?= $value->parroquia ?></td>
                                                     <td><?= $value->referencia ?></td>
-                                                    <td>Pendiente</td>
+                                                    <td><?php 
+                                                    if($value->aprobacion  == 'pen'){
+                                                        echo 'Pendiente';
+                                                    }else if($value->aprobacion == 'apr'){
+                                                        echo 'Aprobado';
+                                                    }else{
+                                                        echo 'Rechazado';
+                                                    }?></td>
                                                     <td>
                                                         <a href="#" title="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                                        <?php if($value->aprobacion == 'pen') {?>
+                                                        <a href="inspeccion_estado.php?id=<?=$value->id?>" title="Cambiar estado" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                                 <?php } ?>

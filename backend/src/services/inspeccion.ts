@@ -77,18 +77,11 @@ export class InspeccionService{
 
   async updateState(entity:any){
     const db = connect();
-    if(!entity.state){
-      throw new Error('Debe enviar el estado (state)');
+    if(!entity.id || !entity.aprobacion || !entity.observacion){
+      throw new Error('Debe enviar el id, aprobacion, observacion');
     }
-    if(!entity.description){
-      throw new Error('Debe enviar la descripcion (description)');
-    }
-    let sql = `update tblinspeccion set DateFecha='${moment().format("YYYY-MM-DD")}', StrAprovacion='${entity.state.toUpperCase()}' where IntIdInspeccion=${entity.id}`;
+    let sql = `update inspecciones set aprobacion='${entity.aprobacion}', observacion='${entity.observacion}' where id=${entity.id}`;
     let data = await db.query(sql);
-    sql = `
-      insert into tblobservaciones(IntIdInspeccion,StrDescripcion) 
-      values(${entity.id},'${entity.description}')`
-    data = await db.query(sql);
     await db.end()
     return data[0];
   }

@@ -33,11 +33,12 @@ export class InspeccionController{
 
   async updateState(req:Request, res:Response){
     try {
-      const data = await inspeccionService.updateState({
+      const body = {
         id: req.params.id,
-        state: req.body.estado,
-        description: req.body.descripcion
-      });
+        aprobacion: req.body.aprobacion,
+        observacion: req.body.observacion
+      }      
+      const data = await inspeccionService.updateState(body);
       return res.json({data})
     } catch (error:any) {
       res.json({error:error.message});
